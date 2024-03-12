@@ -1,0 +1,49 @@
+<div class="container">
+    <form #calculateForm="ngForm" (ngSubmit)="calculationForm(calculateForm.value)" autocomplete="off">
+        <div class="form-group">
+            <label for="mainLimit">Main Limit <span class="text-danger">*</span></label>
+            <div class="input-group">
+                <div class="input-group-addon">£</div>
+                <input type="number" class="form-control" name="mainLimit" [(ngModel)]="mainLimit" min="1" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="mainRetention">Main Retention <span class="text-danger">*</span></label>
+            <div class="input-group">
+                <div class="input-group-addon">£</div>
+                <input type="number" class="form-control" name="mainRetention" min="1" [(ngModel)]="mainRetention" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="executionType">Type of Execution <span class="text-danger">*</span></label>
+            <select class="form-control" name="executionType" [(ngModel)]="executionType" required="">
+                <option value="">Select Option</option>
+                <option value="Simple">Simple</option>
+                <option value="Complex">Complex</option>
+            </select>
+        </div>
+        <div class="form-group text-center">
+            <div>
+                <button class="btn btn-primary" [disabled]="calculateForm.invalid">Trigger Calculation</button>
+            </div>
+
+        </div>
+    </form>
+    <div *ngIf="loading" class="loading-spinner"></div>
+    <table class="table table-striped text-bordered text-center" *ngIf="calculationResults.length > 0">
+        <thead>
+            <tr>
+                <th class="text-center">Reference Date</th>
+                <th class="text-center">Benchmark 1</th>
+                <th class="text-center">Benchmark 2</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let result of calculationResults">
+                <td>{{ result.referenceDate | date:'dd MMM yyyy' }}</td>
+                <td>{{ result.benchmark1 | percentage}}</td>
+                <td>{{ result.benchmark2 | percentage}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
